@@ -1,79 +1,106 @@
 <div>
   <div class="mt-4">
-    <h1 class="font-bold text-3xl text-center">
-      ¿ Que placas circulan en Quito hoy?
-    </h1>
-
-    {{ name().value | json }}
+    <h1 class="font-bold text-3xl text-center">Consulta si puedes circular</h1>
 
     <div class="grid grid-cols-2 mt-4">
-      <div>
-        <div>
-          <!--Fecha  -->
-          <!-- <input
-              class="text-white text-sm rounded-lg px-6 focus:ring-blue-500 focus:border-blue-500 mx-3 ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type=""
-            /> -->
-          <div class="flex gap-3">
+      <form [formGroup]="myForm" (ngSubmit)="onSave()" autocomplete="off">
+        <div class="flex gap-3">
+          <div>
             <input
               type="text"
-              [formControl]="name()"
               id="search-dropdown"
               class="rounded-md block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
               placeholder="Ingrese el número de placa "
               required
+              formControlName="placa"
             />
-            <input
-              class="rounded-md block p-2.5 w-2/5 z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-              type="time"
-            />
-            <!-- <button
-              (click)="final()"
-              type="button"
-              class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            <span
+              class="text-xs text-red-600"
+              *ngIf="
+                myForm.controls['placa'].getError('required') &&
+                myForm.controls['placa'].touched
+              "
             >
-              Buscar
+              El campo es requerido
+            </span>
+            <span
+              class="text-xs text-red-600"
+              *ngIf="
+                myForm.controls['placa'].getError('minLength') &&
+                myForm.controls['placa'].touched
+              "
+            >
+              Debe contener 7 letras
+            </span>
+          </div>
+          <div>
+            <input
+              class="rounded-md block p-2 z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+              type="time"
+              formControlName="hora"
+            />
+            <span
+              class="text-xs text-red-600"
+              *ngIf="
+                myForm.controls['hora'].errors &&
+                myForm.controls['hora'].touched
+              "
+            >
+              El campo es requerido
+            </span>
+          </div>
 
-              <span class="sr-only">Search</span>
-            </button> -->
+          <div>
             <select
-              (click)="fecha($event)"
+              formControlName="dia"
               class="text-white text-sm rounded-lg px-6 focus:ring-blue-500 focus:border-blue-500 mx-3 ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               name=""
               id=""
             >
               <option>Seleccione una opción</option>
-              @for (item of datos(); track $index) {
+              @for (item of data; track $index) {
               <option value="{{ item.id }}">
                 {{ item.dia }}
               </option>
               }
             </select>
+            <span
+              class="text-xs text-red-600"
+              *ngIf="
+                myForm.controls['dia'].errors && myForm.controls['dia'].touched
+              "
+            >
+              El campo es requerido
+            </span>
           </div>
-
-          <!-- Fin fecha -->
         </div>
-      </div>
-      <div>
-        <div
-          class="p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+
+        <button
+          type="submit"
+          class="mt-4 bg-green-500 rounded-md p-2 text-white"
         >
-          <h1 class="text-white text-center">
-            Información de placas que no circulan
-          </h1>
+          Verificar
+        </button>
+      </form>
+      <div
+        class="p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      >
+        <h1 class="text-white text-center mt-2">
+          !BIENVENIDO! Realice su consulta
+        </h1>
 
-          <hr />
-          @if (name().value?.slice(-1) ==='1' || name().value?.slice(-1) ===
-          '2') { @for (item of final(); track $index) {
+        <hr />
 
-          <p class="text-white text-xl mt-4 p-4">{{ item.descipcion }}</p>
+        @if (myForm.valid) { @if (dataFinal() == undefined) {
+        <p class="text-white text-lg mt-4 p-3">
+          Libre circulación no tiene restricciónes
+        </p>
+        }@else { @for (item of dataFinal() ; track $index) {
+        <h1 class="text-white mt-4 text-lg text-center">
+          {{ item.description }}
+        </h1>
 
-          } }
-
-          <!-- <p class="text-white">Fecha: {{ addfecha() }}</p>
-          <br />
-          <p class="text-white">Placa: {{ name().value }}</p> -->
-        </div>
+        } } }
       </div>
     </div>
   </div>

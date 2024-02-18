@@ -1,10 +1,16 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Placa } from '../../interfaces/placa';
 import { RouterModule } from '@angular/router';
 import { OtherComponent } from '../other/other.component';
+import { ConsultaService } from '../../services/consulta.service';
 
 @Component({
   selector: 'app-home',
@@ -20,96 +26,37 @@ import { OtherComponent } from '../other/other.component';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  name = signal(
-    new FormControl('', [Validators.required, Validators.minLength(7)])
-  );
+  infoServices = inject(ConsultaService);
+  // Services para verificar  la información
+  data = this.infoServices.info();
+  // Señales
+  hour = signal('');
 
-  filter = signal(1);
+  hourInt = signal(0);
+  plate = signal('');
+  day = signal('');
 
-  //arreglo de los dias
-  datos = signal<Placa[]>([
-    {
-      id: 1,
-      dia: 'Lunes',
-      descipcion: 'Ud no puede circular',
-    },
-    {
-      id: 2,
-      dia: 'Martes',
-      descipcion: 'Ud no puede circular',
-    },
-    {
-      id: 3,
-      dia: 'Miércoles',
-      descipcion: 'Terminadas en 5 y 6',
-    },
-    {
-      id: 4,
-      dia: 'Jueves',
-      descipcion: 'Terminadas en 7 y 8',
-    },
-    {
-      id: 5,
-      dia: 'Viernes',
-      descipcion: 'Terminadas en 9 y 0',
-    },
-    {
-      id: 6,
-      dia: 'Sábado',
-      descipcion: 'Circulan todas las placas',
-    },
-    {
-      id: 7,
-      dia: 'Domingo',
-      descipcion: 'Circulan todas las placas',
-    },
-  ]);
-
-  final = computed(() => {
-    const data = this.datos();
-    const placa = this.name().value;
-    const filtros = this.filter();
-
-    // if (fecha == 'lunes' && placa?.slice(-1) == '1') {
-    //   console.log('placas no circulan');
-    // }
-    // if (fecha == 'martes') {
-    //   console.log('es martes');
-    // }
-    if (filtros === 1) {
-      return data.filter((d) => d.id == 1);
-    }
-    if (filtros === 2) {
-      return data.filter((d) => d.id === 2);
-    }
-    if (filtros === 3) {
-      return data.filter((d) => d.id == 3);
-    }
-    if (filtros === 4) {
-      return data.filter((d) => d.id == 4);
-    }
-    if (filtros === 5) {
-      return data.filter((d) => d.id == 5);
-    }
-    if (filtros === 6) {
-      return data.filter((d) => d.id == 6);
-    }
-    if (filtros === 7) {
-      return data.filter((d) => d.id == 7);
-    }
-    return data;
+  dataFinal = signal<Placa[] | null | undefined>([]);
+  public myForm: FormGroup = new FormGroup({
+    placa: new FormControl('', [Validators.required, Validators.minLength(7)]),
+    hora: new FormControl(0, [Validators.required]),
+    dia: new FormControl('', [Validators.required]),
   });
 
-  ngOnInt() {}
-  // public fecha(event: Event) {
-  //   const date = event.target as HTMLInputElement;
-  //   this.addfecha.set(date.value);
-
-  public fecha(event: Event) {
-    const date = event.target as HTMLInputElement;
-    const fi = parseInt(date.value);
-    // // this.transformDate(fi);
-    // this.addfecha.set(fi);
-    this.filter.set(fi);
+  onSave() {
+    if (this.myForm.valid) {
+      this.hour.set(this.myForm.value.hora);
+      this.hourInt.set(this.infoServices.changeHour(this.hour()));
+      this.plate.set(this.myForm.value.placa);
+      this.day.set(this.myForm.value.dia);
+    }
+    const fi = this.infoServices.changeFinal(
+      this.hourInt(),
+      this.plate(),
+      this.day()
+    );
+    this.dataFinal.set(fi);
+    this.myForm.markAllAsTouched();
+    console.log(this.dataFinal());
   }
 }
