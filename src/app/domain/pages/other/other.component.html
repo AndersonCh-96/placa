@@ -1,0 +1,94 @@
+<div class="container">
+  <h1 class="mt-4 text-3xl font-bold text-center mb-6">
+    Consulta si puedes circular
+  </h1>
+  <div class="grid grid-cols-2">
+    <div>
+      <form
+        class="flex gap-2 p-2"
+        [formGroup]="myForm"
+        (ngSubmit)="onSave()"
+        autocomplete="off"
+      >
+        <div class="flex-1">
+          <select
+            class="text-white text-sm rounded-lg px-6 focus:ring-blue-500 focus:border-blue-500 mx-3 ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            formControlName="dia"
+            name=""
+            id=""
+          >
+            <option class="text-white">Seleccione el día</option>
+            @for (item of days(); track $index) {
+            <option value="{{ item.id }}">
+              {{ item.dia }}
+            </option>
+            }
+          </select>
+          <span class="text-red-600 mx-4 text-xs" *ngIf="isValid('dia')"
+            >Este campo es requerido</span
+          >
+        </div>
+        <div class="flex-1">
+          <input
+            class="rounded-md block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+            formControlName="hora"
+            type="time"
+          />
+          <span class="text-red-600 mx-4 text-xs" *ngIf="isValid('hora')"
+            >Este campo es requerido</span
+          >
+        </div>
+        <div class="flex-1">
+          <input
+            formControlName="placa"
+            class="rounded-md block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+            type="text"
+            name="placa"
+            placeholder="Ingrese la placa de su automovil"
+            id=""
+          />
+
+          <span class="text-red-600 mx-2 text-xs" *ngIf="isValid('placa')"
+            >Requiere mínimo 7 caracteres</span
+          >
+          <span
+            class="text-red-600 mx-4 text-xs"
+            *ngIf="
+              myForm.controls['placa'].getError('required') &&
+              myForm.controls['placa'].touched
+            "
+            >Este campo es requerido</span
+          >
+        </div>
+        <button
+          type="submit"
+          class="bg-blue-600 p-2 text-white rounded-md w-20"
+        >
+          Verificar
+        </button>
+      </form>
+    </div>
+    <div
+      class="p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+    >
+      <h1 class="text-white font-bold text-center">Consulta</h1>
+      <hr />
+      <!-- {{ hora() }} -->
+
+      <!-- <p>{{ myForm.value.dia }}</p>
+      <p>{{ myForm.value.hora }}</p>
+      <p>{{ myForm.value.placa }}</p>
+
+      <p>filtro {{ filter() }}</p> -->
+
+      @if (final()) { @for (item of final(); track $index) {
+      <p class="text-white font-bold p-4 text-xl">{{ item.description }}</p>
+      } }@else if( myForm.valid) {
+      <p class="text-xl text-white text-center p-4">Libre ciruculacion</p>
+      }@else {
+      <p class="text-xl text-white text-center p-4">Realice su consulta</p>
+      }
+      <!-- {{dia()}} -->
+    </div>
+  </div>
+</div>
