@@ -47,6 +47,7 @@ export class HomeComponent {
   });
 
   onSave() {
+    this.plate.set(this.myForm.value.placa);
     if (this.myForm.valid) {
       this.hour.set(this.myForm.value.hora);
       this.hourInt.set(this.infoServices.changeHour(this.hour()));

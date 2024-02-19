@@ -9,6 +9,7 @@
         <div class="flex gap-3">
           <div>
             <input
+              maxlength="7"
               type="text"
               id="search-dropdown"
               class="rounded-md block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
@@ -44,15 +45,12 @@
               Máximo 7 caracteres
             </span>
             <br />
-            <span
-              class="text-xs text-red-600"
-              *ngIf="
-                myForm.controls['placa'].getError('a') &&
-                myForm.controls['placa'].touched
-              "
-            >
+            @if ( myForm.controls['placa'].getError('a') &&
+            myForm.controls['placa'].touched && plate().length==7) {
+            <span class="text-xs text-red-600">
               El ultimo caracter debe ser un número
             </span>
+            }
           </div>
           <div>
             <input
@@ -127,7 +125,7 @@
         }
 
         {{ myForm.controls["placa"].errors | json }}
-        
+        {{ plate() }}
       </div>
     </div>
   </div>
