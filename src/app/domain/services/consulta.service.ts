@@ -91,7 +91,7 @@ export class ConsultaService {
       }
     }
     if (day === '5') {
-      if (plate.slice(-1) === '9' || plate.slice(-1) === '10') {
+      if (plate.slice(-1) === '9' || plate.slice(-1) === '0') {
         if ((600 < hour && hour < 930) || (hour > 1600 && hour < 2100)) {
           return this.info().filter((d) => d.id == 5);
         }
