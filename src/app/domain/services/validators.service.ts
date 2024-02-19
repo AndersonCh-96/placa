@@ -11,14 +11,25 @@ export class ValidatorsService {
     const final = value.slice(-1);
 
     // verificar que el ultimo caracter es un numero
-    const us = this.com.filter((d) => {
-      if (final === d) {
-        return d;
-      }
-      return null;
-    });
+    // const us = this.com.filter((d) => {
+    //   if (final === d) {
+    //     return d;
+    //   }
+    //   return null;
+    // });
 
-    if (final !== us[0]) {
+    let dos = value.slice(-3);
+    let contar_numeros = value.replace(/[^0-9]/g, '');
+
+    // const prue = () => {
+    //   if (dos === contar_numeros) {
+    //     return dos;
+    //   } else {
+    //     return null;
+    //   }
+    // };
+
+    if (dos !== contar_numeros) {
       return {
         a: true,
       };

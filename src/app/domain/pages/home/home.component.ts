@@ -35,6 +35,7 @@ export class HomeComponent {
   day = signal('');
 
   dataFinal = signal<Placa[] | undefined>([]);
+
   public myForm: FormGroup = new FormGroup({
     placa: new FormControl('', [
       Validators.required,
