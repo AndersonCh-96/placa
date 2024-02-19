@@ -1,6 +1,8 @@
 <div>
   <div class="mt-4">
-    <h1 class="font-bold text-3xl text-center">Consulta si puedes circular</h1>
+    <h1 class="font-bold text-3xl text-center mb-10">
+      Consulta si puedes circular
+    </h1>
 
     <div class="grid grid-cols-2 mt-4">
       <form [formGroup]="myForm" (ngSubmit)="onSave()" autocomplete="off">
@@ -26,11 +28,30 @@
             <span
               class="text-xs text-red-600"
               *ngIf="
-                myForm.controls['placa'].getError('minLength') &&
+                myForm.controls['placa'].getError('minlength') &&
                 myForm.controls['placa'].touched
               "
             >
-              Debe contener 7 letras
+              Minimo 7 caracteres
+            </span>
+            <span
+              class="text-xs text-red-600"
+              *ngIf="
+                myForm.controls['placa'].getError('maxlength') &&
+                myForm.controls['placa'].touched
+              "
+            >
+              Máximo 7 caracteres
+            </span>
+            <br />
+            <span
+              class="text-xs text-red-600"
+              *ngIf="
+                myForm.controls['placa'].getError('a') &&
+                myForm.controls['placa'].touched
+              "
+            >
+              El ultimo caracter debe ser un número
             </span>
           </div>
           <div>
@@ -65,7 +86,7 @@
               }
             </select>
             <span
-              class="text-xs text-red-600"
+              class="text-xs text-red-600 flex mx-4"
               *ngIf="
                 myForm.controls['dia'].errors && myForm.controls['dia'].touched
               "
@@ -73,26 +94,25 @@
               El campo es requerido
             </span>
           </div>
+          <div>
+            <button
+              type="submit"
+              class="bg-green-500 w-28 rounded-md p-2 text-white"
+            >
+              Verificar
+            </button>
+          </div>
         </div>
-
-        <button
-          type="submit"
-          class="mt-4 bg-green-500 rounded-md p-2 text-white"
-        >
-          Verificar
-        </button>
       </form>
       <div
         class="p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
       >
-        <h1 class="text-white text-center mt-2">
-          !BIENVENIDO! Realice su consulta
-        </h1>
+        <h1 class="text-white text-center mt-2">!BIENVENIDO!</h1>
 
         <hr />
 
         @if (myForm.valid) { @if (dataFinal() == undefined) {
-        <p class="text-white text-lg mt-4 p-3">
+        <p class="text-white text-lg mt-4 p-3 text-center">
           Libre circulación no tiene restricciónes
         </p>
         }@else { @for (item of dataFinal() ; track $index) {
@@ -100,7 +120,14 @@
           {{ item.description }}
         </h1>
 
-        } } }
+        } } }@else {
+        <p class="text-center text-white mt-4 text-lg">
+          Por favor realice su consulta completando todos los campos
+        </p>
+        }
+
+        {{ myForm.controls["placa"].errors | json }}
+        
       </div>
     </div>
   </div>

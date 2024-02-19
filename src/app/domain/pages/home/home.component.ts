@@ -9,19 +9,14 @@ import {
 import { CommonModule } from '@angular/common';
 import { Placa } from '../../interfaces/placa';
 import { RouterModule } from '@angular/router';
-import { OtherComponent } from '../other/other.component';
+
 import { ConsultaService } from '../../services/consulta.service';
+import { ValidatorsService } from '../../services/validators.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    HeaderComponent,
-    ReactiveFormsModule,
-    CommonModule,
-    RouterModule,
-    OtherComponent,
-  ],
+  imports: [HeaderComponent, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -29,6 +24,9 @@ export class HomeComponent {
   infoServices = inject(ConsultaService);
   // Services para verificar  la información
   data = this.infoServices.info();
+
+  //validaciones perzonalizadas
+  validation = inject(ValidatorsService);
   // Señales
   hour = signal('');
 
@@ -36,10 +34,15 @@ export class HomeComponent {
   plate = signal('');
   day = signal('');
 
-  dataFinal = signal<Placa[] | null | undefined>([]);
+  dataFinal = signal<Placa[] | undefined>([]);
   public myForm: FormGroup = new FormGroup({
-    placa: new FormControl('', [Validators.required, Validators.minLength(7)]),
-    hora: new FormControl(0, [Validators.required]),
+    placa: new FormControl('', [
+      Validators.required,
+      Validators.minLength(7),
+      Validators.maxLength(7),
+      this.validation.numbPlate,
+    ]),
+    hora: new FormControl('', [Validators.required]),
     dia: new FormControl('', [Validators.required]),
   });
 
@@ -57,6 +60,6 @@ export class HomeComponent {
     );
     this.dataFinal.set(fi);
     this.myForm.markAllAsTouched();
-    console.log(this.dataFinal());
+    alert('Confirmar consulta');
   }
 }

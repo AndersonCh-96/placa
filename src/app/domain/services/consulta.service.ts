@@ -30,13 +30,13 @@ export class ConsultaService {
       id: 4,
       dia: 'Jueves',
       description:
-        'No puede circular los vehiculos con las placas terminadas en',
+        'No puede circular los vehiculos con las placas terminadas en 7 y 8',
     },
     {
       id: 5,
       dia: 'Viernes',
       description:
-        'No puede circular los vehiculos con las placas terminadas en',
+        'No puede circular los vehiculos con las placas terminadas en 9 y 0',
     },
     {
       id: 6,
