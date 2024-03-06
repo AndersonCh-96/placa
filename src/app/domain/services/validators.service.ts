@@ -10,26 +10,12 @@ export class ValidatorsService {
     const value: string = control.value.trim();
     const final = value.slice(-1);
 
-    // verificar que el ultimo caracter es un numero
-    // const us = this.com.filter((d) => {
-    //   if (final === d) {
-    //     return d;
-    //   }
-    //   return null;
-    // });
-
     let dos = value.slice(-3);
+    //Expresión regular que elimina todos los caracteres y deja los numeros
     let contar_numeros = value.replace(/[^0-9]/g, '');
+    let fin = contar_numeros.slice(-3);
 
-    // const prue = () => {
-    //   if (dos === contar_numeros) {
-    //     return dos;
-    //   } else {
-    //     return null;
-    //   }
-    // };
-
-    if (dos !== contar_numeros) {
+    if (dos !== fin) {
       return {
         a: true,
       };

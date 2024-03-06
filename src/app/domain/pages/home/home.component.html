@@ -4,104 +4,108 @@
       Consulta si puedes circular
     </h1>
 
-    <div class="grid grid-cols-2 mt-4">
+    <div class="grid  lg:grid-cols-2 md:grid-cols-1 mt-4 flex-wrap">
       <form [formGroup]="myForm" (ngSubmit)="onSave()" autocomplete="off">
-        <div class="flex gap-3">
+        <div class="mx-12">
           <div>
-            <input
-              maxlength="7"
-              type="text"
-              id="search-dropdown"
-              class="rounded-md block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-              placeholder="Ingrese el número de placa "
-              required
-              formControlName="placa"
-            />
-            <span
-              class="text-xs text-red-600"
-              *ngIf="
-                myForm.controls['placa'].getError('required') &&
-                myForm.controls['placa'].touched
-              "
-            >
-              El campo es requerido
-            </span>
-            <span
-              class="text-xs text-red-600"
-              *ngIf="
-                myForm.controls['placa'].getError('minlength') &&
-                myForm.controls['placa'].touched
-              "
-            >
-              Minimo 7 caracteres
-            </span>
-            <span
-              class="text-xs text-red-600"
-              *ngIf="
-                myForm.controls['placa'].getError('maxlength') &&
-                myForm.controls['placa'].touched
-              "
-            >
-              Máximo 7 caracteres
-            </span>
-            <br />
-            @if ( myForm.controls['placa'].getError('a') &&
-            myForm.controls['placa'].touched && plate().length==7) {
-            <span class="text-xs text-red-600">
-              Los 3 ultimos caracteres deben ser números
-            </span>
-            }
-          </div>
-          <div>
-            <input
-              class="rounded-md block p-2 z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-              type="time"
-              formControlName="hora"
-            />
-            <span
-              class="text-xs text-red-600"
-              *ngIf="
-                myForm.controls['hora'].errors &&
-                myForm.controls['hora'].touched
-              "
-            >
-              El campo es requerido
-            </span>
-          </div>
-
-          <div>
-            <select
-              formControlName="dia"
-              class="text-white text-sm rounded-lg px-6 focus:ring-blue-500 focus:border-blue-500 mx-3 ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name=""
-              id=""
-            >
-              <option>Seleccione una opción</option>
-              @for (item of data; track $index) {
-              <option value="{{ item.id }}">
-                {{ item.dia }}
-              </option>
+            <div>
+              <input
+                maxlength="7"
+                type="text"
+                id="search-dropdown"
+                class="rounded-md block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                placeholder="Ingrese el número de placa "
+                required
+                formControlName="placa"
+              />
+              <span
+                class="text-xs text-red-600"
+                *ngIf="
+                  myForm.controls['placa'].getError('required') &&
+                  myForm.controls['placa'].touched
+                "
+              >
+                El campo es requerido
+              </span>
+              <span
+                class="text-xs text-red-600"
+                *ngIf="
+                  myForm.controls['placa'].getError('minlength') &&
+                  myForm.controls['placa'].touched
+                "
+              >
+                Minimo 7 caracteres
+              </span>
+              <span
+                class="text-xs text-red-600"
+                *ngIf="
+                  myForm.controls['placa'].getError('maxlength') &&
+                  myForm.controls['placa'].touched
+                "
+              >
+                Máximo 7 caracteres
+              </span>
+              <br />
+              @if ( myForm.controls['placa'].getError('a') &&
+              myForm.controls['placa'].touched && plate().length==7) {
+              <span class="text-xs text-red-600">
+                Los 3 ultimos caracteres deben ser números
+              </span>
               }
-            </select>
-            <span
-              class="text-xs text-red-600 flex mx-4"
-              *ngIf="
-                myForm.controls['dia'].errors && myForm.controls['dia'].touched
-              "
-            >
-              El campo es requerido
-            </span>
-          </div>
-          <div>
-            <button
-              type="submit"
-              class="bg-green-500 w-28 rounded-md p-2 text-white"
-            >
-              Verificar
-            </button>
+            </div>
+            <div>
+              <input
+                class="rounded-md block p-2 z-20 text-sm w-full mb-2 text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                type="time"
+                formControlName="hora"
+              />
+              <span
+                class="text-xs text-red-600"
+                *ngIf="
+                  myForm.controls['hora'].errors &&
+                  myForm.controls['hora'].touched
+                "
+              >
+                El campo es requerido
+              </span>
+            </div>
+
+            <div>
+              <select
+                formControlName="dia"
+                class="text-white text-sm rounded-lg px-6 focus:ring-blue-500 focus:border-blue-500 mt-4 ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                name=""
+                id=""
+              >
+                <option>Seleccione una opción</option>
+                @for (item of data; track $index) {
+                <option value="{{ item.id }}">
+                  {{ item.dia }}
+                </option>
+                }
+              </select>
+              <span
+                class="text-xs text-red-600 flex mx-4"
+                *ngIf="
+                  myForm.controls['dia'].errors &&
+                  myForm.controls['dia'].touched
+                "
+              >
+                El campo es requerido
+              </span>
+            </div>
+            <div>
+              <button
+                type="submit"
+                class="bg-green-500 w-28 rounded-md p-2 text-white mt-4 mb-6"
+              >
+                Verificar
+              </button>
+            </div>
           </div>
         </div>
       </form>
+
       <div
         class="p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
       >
